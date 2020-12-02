@@ -30,7 +30,7 @@ vector <int> readFileToArray(vector <int> &input, string path){
 	return input;
 }
 
-int computeSolution(vector <int> &input){
+int computeSolution1(vector <int> &input){
 
     for (int i = 0; i < input.size(); i++)
     {
@@ -38,6 +38,25 @@ int computeSolution(vector <int> &input){
         {
             if(input[i] + input[j] == 2020){
                 return input[i]*input[j];
+            }
+        }
+        
+    }
+    
+    return 1;
+}
+
+int computeSolution2(vector <int> &input){
+
+    for (int i = 0; i < input.size(); i++)
+    {
+        for (int j = i+1; j < input.size(); j++)
+        {
+            for (int k = j+1; k < input.size(); k++)
+            {
+                if(input[i] + input[j] + input[k] == 2020){
+                    return input[i]*input[j]*input[k];
+                }
             }
         }
         
@@ -59,7 +78,8 @@ int main(int argc, char* argv[]){
 
     readFileToArray(input, argv[1]);
 
-    cout << computeSolution(input) << "\n";
+    cout << computeSolution1(input) << "\n";
+    cout << computeSolution2(input) << "\n";
     return 0;
 
 
