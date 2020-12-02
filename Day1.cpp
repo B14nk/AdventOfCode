@@ -1,12 +1,13 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <vector>
 #include <sstream>
+#include <unordered_set>
+#include <vector>
 
 using namespace std;
 
-vector <int> readFileToArray(vector <int> &input, string path){
+void readFileToArray(vector <int> &input, unordered_set <int> &input_set, string path){
     string line;
     ifstream data(path);
     
@@ -19,6 +20,8 @@ vector <int> readFileToArray(vector <int> &input, string path){
             int temp = 0;
             convert >> temp;
             input.emplace_back(temp);
+            //input_set.emplace(temp);
+            input_set.insert(temp);
             
             
         }
@@ -27,18 +30,15 @@ vector <int> readFileToArray(vector <int> &input, string path){
 
     else cout << "Unable to open file\n";
 
-	return input;
+	return;
 }
 
-int computeSolution1(vector <int> &input){
+int computeSolution1(vector <int> &input, unordered_set <int> &input_set){
 
     for (int i = 0; i < input.size(); i++)
     {
-        for (int j = i+1; j < input.size(); j++)
-        {
-            if(input[i] + input[j] == 2020){
-                return input[i]*input[j];
-            }
+        if(input_set.count(2020-input[i]) == 1){
+            return input[i] * (2020-input[i]);
         }
         
     }
@@ -46,18 +46,16 @@ int computeSolution1(vector <int> &input){
     return 1;
 }
 
-int computeSolution2(vector <int> &input){
+int computeSolution2(vector <int> &input, unordered_set <int> &input_set){
 
     for (int i = 0; i < input.size(); i++)
     {
         for (int j = i+1; j < input.size(); j++)
         {
-            for (int k = j+1; k < input.size(); k++)
-            {
-                if(input[i] + input[j] + input[k] == 2020){
-                    return input[i]*input[j]*input[k];
-                }
-            }
+            if(input_set.count(2020-input[i]-input[j]) == 1){
+            return input[i] * input[j] * (2020-input[i]-input[j]);
+        }
+            
         }
         
     }
@@ -75,11 +73,11 @@ int main(int argc, char* argv[]){
 	}
 
     vector <int> input;
+    unordered_set <int> input_set;
 
-    readFileToArray(input, argv[1]);
-
-    cout << computeSolution1(input) << "\n";
-    cout << computeSolution2(input) << "\n";
+    readFileToArray(input, input_set, argv[1]);
+    cout << computeSolution1(input, input_set) << "\n";
+    cout << computeSolution2(input, input_set) << "\n";
     return 0;
 
 
