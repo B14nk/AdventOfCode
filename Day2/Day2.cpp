@@ -9,7 +9,8 @@ using namespace std;
 void parseAndCheckInput(string path){
     string line;
     ifstream data(path);
-    int solution = 0;
+    int solution_1 = 0;
+    int solution_2 = 0;
     
 	if(data.is_open())
     {
@@ -37,17 +38,22 @@ void parseAndCheckInput(string path){
                     count += 1;
                 }
             }
+            
             if (count >= lowerBound && count <= upperBound)
             {
-                solution += 1;
+                solution_1 += 1;
             }
-            
-            
+
+            if ((password[lowerBound-1] == letter) != (password[upperBound-1] == letter))
+            {
+                solution_2 += 1;
+            }
         }
         data.close();
     }
     else cout << "Unable to open file\n";
-    cout << solution << "\n";
+    cout << solution_1 << "\n";
+    cout << solution_2 << "\n";
     return;
 }
 
